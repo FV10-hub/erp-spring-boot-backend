@@ -34,4 +34,9 @@ public class IProductoServiceImpl implements IProductoService {
     public void delete(Long id) {
         productoDao.deleteById(id);
     }
+
+    @Override
+    public List<Producto> findProductoByNombre(String term) {
+        return productoDao.findProductoByDescripcion(term);
+    }
 }

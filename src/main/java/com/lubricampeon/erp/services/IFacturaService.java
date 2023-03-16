@@ -12,6 +12,5 @@ public interface IFacturaService {
     public Factura saveFactura(Factura factura);
 
     public void deleteFacturaById(Long id);
-
-    public List<Producto> findProductoByNombre(String term);
+    public List<Factura> listarTodos();
 }

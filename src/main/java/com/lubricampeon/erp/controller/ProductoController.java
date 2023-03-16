@@ -124,4 +124,11 @@ public class ProductoController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/productos/filtrar-productos/{term}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Producto> filtrarProductos(@PathVariable String term){
+        return productoService.findProductoByNombre(term);
+    }
+
+
 }
