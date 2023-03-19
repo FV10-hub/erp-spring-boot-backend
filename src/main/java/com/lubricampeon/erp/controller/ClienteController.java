@@ -87,6 +87,7 @@ public class ClienteController {
 
             clienteActual.setNombreCompleto(cliente.getNombreCompleto());
             clienteActual.setDocumento(cliente.getDocumento());
+            clienteActual.setChapa(cliente.getChapa());
             clienteActual.setTelefono(cliente.getTelefono());
             clienteActual.setCreateAt(cliente.getCreateAt());
 

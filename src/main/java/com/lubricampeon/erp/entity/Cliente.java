@@ -20,6 +20,8 @@ public class Cliente implements Serializable {
 
     private String telefono;
 
+    private String chapa;
+
     @Column(name="create_at")
     @Temporal(TemporalType.DATE)
     private Date createAt;
@@ -67,6 +69,14 @@ public class Cliente implements Serializable {
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    public String getChapa() {
+        return chapa;
+    }
+
+    public void setChapa(String chapa) {
+        this.chapa = chapa;
     }
 
     private static final long serialVersionUID = 1L;
