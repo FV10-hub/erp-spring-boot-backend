@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,9 @@ public class Factura implements Serializable {
     private String observacion;
 
     private String nroFactura;
+
+    @Column(name = "total_factura")
+    private BigDecimal totalFactura;
 
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE)
@@ -98,6 +102,14 @@ public class Factura implements Serializable {
 
     public void setNroFactura(String nroFactura) {
         this.nroFactura = nroFactura;
+    }
+
+    public BigDecimal getTotalFactura() {
+        return totalFactura;
+    }
+
+    public void setTotalFactura(BigDecimal totalFactura) {
+        this.totalFactura = totalFactura;
     }
 
     private static final long serialVersionUID = 1L;

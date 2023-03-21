@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "facturas_detalles")
-public class FacturaDetalle  implements Serializable {
+public class FacturaDetalle implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +16,10 @@ public class FacturaDetalle  implements Serializable {
 
     private Integer cantidad;
 
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @Column(name = "total_linea")
+    private BigDecimal totalLinea;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private Producto producto;
@@ -46,6 +50,14 @@ public class FacturaDetalle  implements Serializable {
 
     public Double getImporte() {
         return cantidad.doubleValue() * producto.getPrecio();
+    }
+
+    public BigDecimal getTotalLinea() {
+        return totalLinea;
+    }
+
+    public void setTotalLinea(BigDecimal totalLinea) {
+        this.totalLinea = totalLinea;
     }
 
     private static final long serialVersionUID = 1L;
