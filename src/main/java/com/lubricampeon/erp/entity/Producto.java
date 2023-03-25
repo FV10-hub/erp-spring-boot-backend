@@ -20,6 +20,9 @@ public class Producto implements Serializable {
 
     private Double precio;
 
+    @Column(name = "precio_costo")
+    private Double precioCosto;
+
     private Integer existencia;
 
     @Column(name = "create_at")
@@ -77,6 +80,14 @@ public class Producto implements Serializable {
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    public Double getPrecioCosto() {
+        return precioCosto;
+    }
+
+    public void setPrecioCosto(Double precioCosto) {
+        this.precioCosto = precioCosto;
     }
 
     private static final long serialVersionUID = 1L;
