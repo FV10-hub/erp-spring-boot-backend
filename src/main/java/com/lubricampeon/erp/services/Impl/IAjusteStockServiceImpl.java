@@ -4,9 +4,11 @@ import com.lubricampeon.erp.entity.AjusteStock;
 import com.lubricampeon.erp.repository.IAjusteStockDao;
 import com.lubricampeon.erp.services.IAjusteStockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class IAjusteStockServiceImpl implements IAjusteStockService {
 
     @Autowired
