@@ -21,8 +21,8 @@ public class ErpApplication {
 	public CorsFilter corsFilter() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		final CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowCredentials(true);
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:3000"));
+		configuration.setAllowCredentials(false);
+		configuration.setAllowedOrigins(Arrays.asList("*"));
 		configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept",
 				"Access-Control-Allow-Origin", "Jwt-Token", "Authorization", "Origin-Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
