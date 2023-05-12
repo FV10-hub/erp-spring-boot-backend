@@ -19,6 +19,9 @@ public class FacturaDetalle implements Serializable {
     @Column(name = "total_linea")
     private BigDecimal totalLinea;
 
+    @Column(name = "descuento")
+    private BigDecimal descuento;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
@@ -58,6 +61,14 @@ public class FacturaDetalle implements Serializable {
 
     public void setTotalLinea(BigDecimal totalLinea) {
         this.totalLinea = totalLinea;
+    }
+
+    public BigDecimal getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(BigDecimal descuento) {
+        this.descuento = descuento;
     }
 
     private static final long serialVersionUID = 1L;
