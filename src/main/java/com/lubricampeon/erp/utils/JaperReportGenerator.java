@@ -32,9 +32,9 @@ public class JaperReportGenerator {
     }
 
     public ResponseEntity<byte[]> generateReport(String reportName,
-                                                 Map<String, Object> params,
-                                                 String format)
-    throws FileNotFoundException, JRException, IOException {
+                                                 Map<String, Object> params)
+    throws JRException, IOException {
+        String format = this.getFormatFromParams(params);
         try (InputStream inputStream = new FileInputStream(this.getAbsolutPath(reportName))) {
             // Cargar el archivo Jasper
             //JasperReport jasperReport = JasperCompileManager.compileReport(new File(reportPath).getAbsolutePath());//(JasperReport) JRLoader.loadObject(new InputStream(reportPath));
@@ -48,10 +48,14 @@ public class JaperReportGenerator {
             byte[] reportBytes;
             String contentType;
             String fileExtension;
+            // Configurar las cabeceras de la respuesta
+            HttpHeaders headers = new HttpHeaders();
             if (format.equalsIgnoreCase("PDF")) {
                 reportBytes = JasperExportManager.exportReportToPdf(jasperPrint);
                 contentType = MediaType.APPLICATION_PDF_VALUE;
                 fileExtension = "pdf";
+                headers.setContentType(MediaType.parseMediaType(contentType));
+                headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
             } else if (format.equalsIgnoreCase("XLS")) {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 /*JRXlsExporter exporter = new JRXlsExporter();
@@ -74,15 +78,12 @@ public class JaperReportGenerator {
                 reportBytes = outputStream.toByteArray();
                 contentType = "application/vnd.ms-excel";
                 fileExtension = "xlsx";
-                //exporter.exportReport();
+                exporter.exportReport();
+                headers.setContentType(MediaType.parseMediaType(contentType));
+                headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
             } else {
                 throw new IllegalArgumentException("Formato de informe no válido. Debe ser PDF o XLS.");
             }
-
-            // Configurar las cabeceras de la respuesta
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(contentType));
-            headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
 
             // Enviar el archivo adjunto como respuesta
             return new ResponseEntity<>(reportBytes, headers, HttpStatus.OK);
@@ -92,6 +93,18 @@ public class JaperReportGenerator {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getFormatFromParams(Map<String, Object> params) {
+        String result = "";
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (!"format".equalsIgnoreCase(key)) continue;
+            result = (String) value;
+
+        }
+        return result;
     }
 
     private String getAbsolutPath(String reportName){

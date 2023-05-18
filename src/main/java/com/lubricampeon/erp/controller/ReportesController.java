@@ -27,18 +27,17 @@ public class ReportesController {
         this.reportGenerator = reportGenerator;
     }
 
-    @GetMapping("/reportes/{reportName}")
+    @PostMapping("/reportes/{reportName}")
     public ResponseEntity<?> downloadReport(
             @PathVariable String reportName,
             //@RequestParam Map<String, String> parameters,
-            @RequestBody Map<String, Object> parameters,
-            @RequestParam(defaultValue = "PDF") String format
+            @RequestBody Map<String, Object> parameters
     ) {
         Map<String, Object> response = new HashMap<>();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             // Generar y descargar el informe adjunto
-            return reportGenerator.generateReport(reportName, parameters, format);
+            return reportGenerator.generateReport(reportName, parameters);
         } catch (IOException | JRException e) {
             // Manejar errores si es necesario
             response.put("mensaje", "Error al realizar la consulta en la base de datos");
