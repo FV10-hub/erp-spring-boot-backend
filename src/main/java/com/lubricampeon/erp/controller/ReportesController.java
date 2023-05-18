@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,23 +28,25 @@ public class ReportesController {
     }
 
     @GetMapping("/reportes/{reportName}")
-    public ResponseEntity<byte[]> downloadReport(
+    public ResponseEntity<?> downloadReport(
             @PathVariable String reportName,
-            @RequestParam Map<String, String> parameters,
+            //@RequestParam Map<String, String> parameters,
+            @RequestBody Map<String, Object> parameters,
             @RequestParam(defaultValue = "PDF") String format
     ) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            // Convertir los parámetros de String a Object si es necesario
-            Map<String, Object> reportParameters = new HashMap<>();
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                reportParameters.put(entry.getKey(), entry.getValue());
-            }
-
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             // Generar y descargar el informe adjunto
-            return reportGenerator.generateReport(reportName, reportParameters, format);
+            return reportGenerator.generateReport(reportName, parameters, format);
         } catch (IOException | JRException e) {
             // Manejar errores si es necesario
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            response.put("mensaje", "Error al realizar la consulta en la base de datos");
+            response.put("error", e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
