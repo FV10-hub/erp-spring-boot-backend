@@ -57,30 +57,17 @@ public class JaperReportGenerator {
                 headers.setContentType(MediaType.parseMediaType(contentType));
                 headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
             } else if (format.equalsIgnoreCase("XLS")) {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                /*JRXlsExporter exporter = new JRXlsExporter();
+                JRXlsExporter exporter = new JRXlsExporter();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                 exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
                 exporter.exportReport();
                 reportBytes = outputStream.toByteArray();
                 contentType = "application/vnd.ms-excel";
-                fileExtension = "xls";*/
-
-                JRXlsxExporter exporter = new JRXlsxExporter();
-                exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-                exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:\\Users\\Elitebook\\Downloads\\CmLibroCompra" + "\\Employee.xlsx"));
-                SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
-                configuration.setOnePagePerSheet(true);
-                configuration.setRemoveEmptySpaceBetweenColumns(true);
-                configuration.setDetectCellType(true);
-                exporter.setConfiguration(configuration);
-                reportBytes = outputStream.toByteArray();
-                contentType = "application/vnd.ms-excel";
-                fileExtension = "xlsx";
-                exporter.exportReport();
+                fileExtension = "xls";
                 headers.setContentType(MediaType.parseMediaType(contentType));
                 headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
+
             } else {
                 throw new IllegalArgumentException("Formato de informe no válido. Debe ser PDF o XLS.");
             }
