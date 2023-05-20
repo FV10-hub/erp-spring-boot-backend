@@ -89,6 +89,7 @@ public class ProductoController {
             productoActual.setDescripcion(producto.getDescripcion());
             productoActual.setExistencia(producto.getExistencia());
             productoActual.setPrecio(producto.getPrecio());
+            productoActual.setPrecioCosto(producto.getPrecioCosto());
             productoActual.setCreateAt(producto.getCreateAt());
 
             productoUpdated = productoService.save(productoActual);
