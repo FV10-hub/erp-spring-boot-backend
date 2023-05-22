@@ -26,6 +26,11 @@ public class IProductoServiceImpl implements IProductoService {
     }
 
     @Override
+    public Producto findByCodigoBarra(String codigoBarra) {
+        return productoDao.findByCodigoBarra(codigoBarra);
+    }
+
+    @Override
     public Producto save(Producto cliente) {
         return productoDao.save(cliente);
     }

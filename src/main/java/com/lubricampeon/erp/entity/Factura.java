@@ -43,10 +43,10 @@ public class Factura implements Serializable {
         items = new ArrayList<>();
     }
 
-    @PrePersist
+     /*@PrePersist
     public void prePersist() {
         this.createAt = new Date();
-    }
+    }*/
 
     public Long getId() {
         return id;

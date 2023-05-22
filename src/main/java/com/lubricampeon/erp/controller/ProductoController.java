@@ -53,8 +53,13 @@ public class ProductoController {
     public ResponseEntity<?> create(@RequestBody Producto producto) {
 
         Producto productoNew = null;
+        Producto productoActual = productoService.findByCodigoBarra(producto.getCodigoBarra());
         Map<String, Object> response = new HashMap<>();
 
+        if (productoActual != null) {
+            response.put("mensaje", "El producto con el codigo de barra " + producto.getCodigoBarra() +" ya existe.");
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        }
         try {
             productoNew = productoService.save(producto);
         } catch(DataAccessException e) {

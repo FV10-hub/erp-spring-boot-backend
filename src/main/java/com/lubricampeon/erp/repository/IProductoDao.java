@@ -10,6 +10,8 @@ public interface IProductoDao extends CrudRepository<Producto, Long>{
 
 	public List<Producto> findAll();
 
+	public Producto findByCodigoBarra(String codigoBarra);
+
 	@Query("select p from Producto p where p.descripcion like %?1%")
 	public List<Producto> findByDescripcion(String term);
 	

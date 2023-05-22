@@ -57,14 +57,22 @@ public class JaperReportGenerator {
                 headers.setContentType(MediaType.parseMediaType(contentType));
                 headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
             } else if (format.equalsIgnoreCase("XLS")) {
-                JRXlsExporter exporter = new JRXlsExporter();
+                JRXlsxExporter exporter = new JRXlsxExporter();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                 exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+
+                SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+                configuration.setOnePagePerSheet(true);
+                configuration.setRemoveEmptySpaceBetweenColumns(true);
+                configuration.setDetectCellType(true);
+                configuration.setRemoveEmptySpaceBetweenRows(true);
+                exporter.setConfiguration(configuration);
+
                 exporter.exportReport();
                 reportBytes = outputStream.toByteArray();
                 contentType = "application/vnd.ms-excel";
-                fileExtension = "xls";
+                fileExtension = "xlsx";
                 headers.setContentType(MediaType.parseMediaType(contentType));
                 headers.setContentDispositionFormData(reportName, reportName + "." + fileExtension);
 
