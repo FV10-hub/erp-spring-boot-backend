@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+  postgres9:
+    container_name: postgres9
+    image: postgres:9.6-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: manager
+      POSTGRES_DB: db_lubri_campeon
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - spring
+  msvc-erp:
+    container_name: msvc-erp
+#    image: aguzf/cursos:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres9
+    restart: always
+    networks:
+      - spring
+  api:
+#    image: nginx:1.23.3
+    build:
+      context: C:\Users\Elitebook\Desktop\proyecto\lubricampeon-erp
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
+#  front:
+#    build:
+#      context: C:\Users\Elitebook\Desktop\proyecto\lubricampeon-erp
+#      dockerfile: C:\Users\Elitebook\Desktop\proyecto\lubricampeon-erp\Dockerfile
+#    ports:
+#      - "4200:80"
+#    depends_on:
+#      - api
+volumes:
+  data-postgres:
+    name: data-postgres
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: D:\Sistema\datos
+
+networks:
+  spring:
+    name: spring
+    #external: true
